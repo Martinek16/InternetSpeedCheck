@@ -11,7 +11,7 @@ This Python script allows you to check your internet connection speed and calcul
 
 2. Run the script with this command:
 ```sh
-	python internet_speed_test.py
+	python main.py
 ```
 
 1. Follow the on-screen instructions:
