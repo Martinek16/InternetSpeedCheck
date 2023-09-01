@@ -1,33 +1,29 @@
 import speedtest
 
+def check_internet_speed():
+    st = speedtest.Speedtest()
+    st.get_best_server()
+    download_speed = st.download() / 1_000_000
+    upload_speed = st.upload() / 1_000_000
+    ping = st.results.ping
+    return download_speed, upload_speed, ping
 
-def preveri_hitrost_interneta():
-  st = speedtest.Speedtest()
-  st.get_best_server()
-  hitrost_prenosa = st.download() / 1_000_000
-  hitrost_nalaganja = st.upload() / 1_000_000
-  ping = st.results.ping
-  return hitrost_prenosa, hitrost_nalaganja, ping
+def print_internet_information(download_speed, upload_speed, ping):
+    print("Internet Connection Information:")
+    print(f"Download Speed: {download_speed:.2f} Mbps")
+    print(f"Upload Speed: {upload_speed:.2f} Mbps")
+    print(f"Ping: {ping} ms")
+    print("----------------------------------------")
 
+def calculate_transfer_time(file_size_gb, download_speed):
+    size_in_mb = file_size_gb * 1024
+    time_in_seconds = size_in_mb / download_speed
+    return time_in_seconds
 
-def izpisi_informacije_o_internetu(hitrost_prenosa, hitrost_nalaganja, ping):
-  print("Informacije o internetni povezavi:")
-  print(f"Hitrost prenosa: {hitrost_prenosa:.2f} Mbps")
-  print(f"Hitrost nalaganja: {hitrost_nalaganja:.2f} Mbps")
-  print(f"Ping: {ping} ms")
-  print("----------------------------------------")
+download_speed, upload_speed, ping = check_internet_speed()
+print_internet_information(download_speed, upload_speed, ping)
 
+file_size_gb = float(input("Enter the file size (in GB): "))
 
-def izracunaj_cas_prenosa(velikost_datoteke_gb, hitrost_prenosa):
-  velikost_v_mb = velikost_datoteke_gb * 1024
-  cas_v_sekundah = velikost_v_mb / hitrost_prenosa
-  return cas_v_sekundah
-
-
-hitrost_prenosa, hitrost_nalaganja, ping = preveri_hitrost_interneta()
-izpisi_informacije_o_internetu(hitrost_prenosa, hitrost_nalaganja, ping)
-
-velikost_datoteke_gb = float(input("Vnesi velikost datoteke (v GB): "))
-
-cas_prenosa = izracunaj_cas_prenosa(velikost_datoteke_gb, hitrost_prenosa)
-print(f"Čas prenosa datoteke bo približno: {cas_prenosa:.2f} sekund")
+transfer_time = calculate_transfer_time(file_size_gb, download_speed)
+print(f"Estimated file download time: {transfer_time:.2f} seconds")
